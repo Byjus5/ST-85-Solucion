@@ -13,7 +13,7 @@ export default class LoginScreen extends Component {
             firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
           providerData[i].uid === googleUser.getBasicProfile().getId()
         ) {
-          // We don't need to reauth the Firebase connection.
+          // No necesitamos reautorizar la conexión con Firebase. 
           return true;
         }
       }
@@ -22,18 +22,18 @@ export default class LoginScreen extends Component {
   };
 
   onSignIn = googleUser => {
-    // We need to register an Observer on Firebase Auth to make sure auth is initialized.
+    // Necesitamos registrar un observador en la autorización de Firebase para asegurar que se inició la autorización.
     var unsubscribe = firebase.auth().onAuthStateChanged(firebaseUser => {
       unsubscribe();
-      // Check if we are already signed-in Firebase with the correct user.
+      //Revisar si ya se hizo sesión en Firebase con el usuario correcto.  
       if (!this.isUserEqual(googleUser, firebaseUser)) {
-        // Build Firebase credential with the Google ID token.
+        //Construir credenciales de Firebas con el token de Google ID.
         var credential = firebase.auth.GoogleAuthProvider.credential(
           googleUser.idToken,
           googleUser.accessToken
         );
 
-        // Sign in with credential from the Google user.
+        //Iniciar sesión con la credencia de usuario de Google.  
         firebase
           .auth()
           .signInWithCredential(credential)
@@ -54,17 +54,17 @@ export default class LoginScreen extends Component {
             }
           })
           .catch(error => {
-            // Handle Errors here.
+            //Lidiar con errores aquí.
             var errorCode = error.code;
             var errorMessage = error.message;
-            // The email of the user's account used.
+            // El email de la cuenta del usuario usado.
             var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
+            // El tipo de firebase.auth.AuthCredential que fue usado.
             var credential = error.credential;
             // ...
           });
       } else {
-        console.log("User already signed-in Firebase.");
+        console.log("El usuario ya hizo sesión en Firebase.");
       }
     });
   };
@@ -96,7 +96,7 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Button
-          title="Sign in with Google"
+          title="Iniciar sesión con Google"
           onPress={() => this.signInWithGoogleAsync()}
         ></Button>
       </View>
